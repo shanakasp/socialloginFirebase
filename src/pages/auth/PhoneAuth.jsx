@@ -112,18 +112,14 @@ const PhoneAuth = ({ setError, setShowPhoneInput }) => {
   };
 
   return (
-    <div className="flex flex-col space-y-4 max-w-md mx-auto p-6 bg-white rounded-lg shadow">
+    <div className="phone-auth-container">
       {/* Add a dedicated container for reCAPTCHA */}
       <div id="recaptcha-container"></div>
 
       {!confirmationResult ? (
-        <form onSubmit={handlePhoneNumberSubmit} className="space-y-4">
-          <div>
-            <label
-              htmlFor="phone"
-              className="label-margin"
-              style={{ marginRight: "10px" }}
-            >
+        <form onSubmit={handlePhoneNumberSubmit} className="phone-auth-form">
+          <div className="form-group">
+            <label htmlFor="phone" style={{ marginRight: "10px" }}>
               Phone Number
             </label>
             <input
@@ -132,30 +128,23 @@ const PhoneAuth = ({ setError, setShowPhoneInput }) => {
               placeholder="+1234567890"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              className="input-margin"
               disabled={loading}
               required
             />
-            <p className="mt-2 m text-sm">
-              Enter phone number with country code (e.g., +1 for US)
-            </p>
+            <p>Enter phone number with country code (e.g., +1 for US)</p>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading || !phoneNumber}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-          >
+          <button type="submit" disabled={loading || !phoneNumber}>
             {loading ? "Sending..." : "Send Verification Code"}
           </button>
         </form>
       ) : (
-        <form onSubmit={handleVerificationCodeSubmit} className="space-y-4">
-          <div>
-            <label
-              htmlFor="code"
-              className="block text-sm font-medium text-gray-700"
-            >
+        <form
+          onSubmit={handleVerificationCodeSubmit}
+          className="phone-auth-form"
+        >
+          <div className="form-group">
+            <label htmlFor="code" style={{ marginRight: "10px" }}>
               Verification Code
             </label>
             <input
@@ -168,7 +157,6 @@ const PhoneAuth = ({ setError, setShowPhoneInput }) => {
                   e.target.value.replace(/\D/g, "").slice(0, 6)
                 )
               }
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               disabled={loading}
               maxLength={6}
               required
@@ -178,19 +166,13 @@ const PhoneAuth = ({ setError, setShowPhoneInput }) => {
           <button
             type="submit"
             disabled={loading || verificationCode.length !== 6}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
           >
             {loading ? "Verifying..." : "Verify Code"}
           </button>
         </form>
       )}
 
-      <button
-        onClick={() => setShowPhoneInput(false)}
-        className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-      >
-        Back to Sign In
-      </button>
+      <button onClick={() => setShowPhoneInput(false)}>Back to Sign In</button>
     </div>
   );
 };
