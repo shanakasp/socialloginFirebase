@@ -1,43 +1,36 @@
-import {
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons for show/hide password
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 
-const EmailAuth = ({ onSuccess, onError }) => {
+const EmailAuth = ({ setError }) => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to control password visibility
 
   const handleEmailPasswordSignIn = async (e) => {
     e.preventDefault();
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      onSuccess(result);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      navigate("/dashboard");
     } catch (error) {
       setError(error.message);
-      onError(error.message);
     }
   };
 
-  const handleResetPassword = async () => {
-    if (!email) {
-      setError("Please enter your email address");
-      return;
-    }
-    try {
-      await sendPasswordResetEmail(auth, email);
-      alert("Password reset email sent. Please check your inbox.");
-    } catch (error) {
-      setError(error.message);
-      onError(error.message);
-    }
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
-    <>
-      <form onSubmit={handleEmailPasswordSignIn}>
+    <form onSubmit={handleEmailPasswordSignIn}>
+      <div className="email-container">
         <input
           type="email"
           placeholder="Email"
@@ -45,25 +38,21 @@ const EmailAuth = ({ onSuccess, onError }) => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+      </div>
+      <div className="password-container">
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Sign In</button>
-      </form>
-
-      <div className="login-options">
-        <a href="#" onClick={handleResetPassword}>
-          Reset Password
-        </a>
-        <a href="/recover-password">Recover Password</a>
+        <span className="password-toggle" onClick={togglePasswordVisibility}>
+          {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Show/Hide icon */}
+        </span>
       </div>
-
-      {error && <div className="error-message">{error}</div>}
-    </>
+      <button type="submit">Sign In</button>
+    </form>
   );
 };
 

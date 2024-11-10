@@ -123,3 +123,18 @@ button:hover {
 .signup-option a:hover {
   text-decoration: underline;
 }
+
+.forgot-password {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.forgot-password-text {
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.forgot-password-text:hover {
+  color: #ddd;
+}

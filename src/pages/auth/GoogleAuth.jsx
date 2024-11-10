@@ -1,16 +1,18 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 
-const GoogleAuth = ({ onSuccess, onError }) => {
+const GoogleAuth = ({ setError }) => {
+  const navigate = useNavigate();
+
   const handleGoogleSignIn = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      onSuccess(result);
+      await signInWithPopup(auth, provider);
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Google auth error:", error);
-      onError(error.message);
+      setError(error.message);
     }
   };
 

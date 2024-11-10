@@ -1,21 +1,24 @@
 import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 
-const TwitterAuth = ({ onSuccess, onError }) => {
+const TwitterAuth = ({ setError }) => {
+  const navigate = useNavigate();
+
   const handleTwitterSignIn = async () => {
     try {
       const provider = new TwitterAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      onSuccess(result);
+      await signInWithPopup(auth, provider);
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Twitter auth error:", error);
-      onError(error.message);
+      setError(error.message);
     }
   };
 
   return (
     <div className="icon-circle" onClick={handleTwitterSignIn}>
+      {/* Twitter SVG Icon */}
       <svg
         width="20"
         height="20"

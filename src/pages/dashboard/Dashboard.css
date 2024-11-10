@@ -60,3 +60,25 @@ button:hover {
 .BacktoLogin {
   margin-left: 4%;
 }
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.waving-hand {
+  animation: wave 1s infinite ease-in-out;
+  margin-left: 10px; /* Space between text and icon */
+}

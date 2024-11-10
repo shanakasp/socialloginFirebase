@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import LoginComponent from "./pages/LoginPage";
-import Dashboard from "./pages/dashboard/Dashboard.jsx"; // Make sure this path is correct
+import Dashboard from "./pages/dashboard/Dashboard.jsx";
 
 function App() {
   return (
