@@ -5,14 +5,22 @@ import { auth } from "../../firebase";
 const ResetPassword = ({ setError, setShowResetPassword }) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showMessageClass, setShowMessageClass] = useState("");
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
     try {
       await sendPasswordResetEmail(auth, email);
       setMessage("Password reset email sent. Please check your inbox.");
+      setShowMessageClass("show-again");
+      setTimeout(() => {
+        setShowMessageClass("");
+      }, 100);
+      setErrorMessage("");
     } catch (error) {
-      setError(error.message);
+      setErrorMessage("Error: " + error.message);
+      setMessage("");
     }
   };
 
@@ -29,9 +37,19 @@ const ResetPassword = ({ setError, setShowResetPassword }) => {
         />
         <button type="submit">Send Reset Email</button>
       </form>
-      {message && <div className="success-message">{message}</div>}
 
-      {/* Back Button */}
+      {/* Success message */}
+      {message && (
+        <div className={`success-message ${showMessageClass}`}>{message}</div>
+      )}
+
+      {/* Error message */}
+      {errorMessage && (
+        <div className={`error-message ${showMessageClass}`}>
+          {errorMessage}
+        </div>
+      )}
+
       <button
         onClick={() => setShowResetPassword(false)}
         className="back-to-signin-btn"

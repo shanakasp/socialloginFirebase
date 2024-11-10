@@ -91,3 +91,57 @@ code {
 
   cursor: pointer;
 }
+.success-message,
+.error-message {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden; /* Initially hidden */
+  animation: fadeInOut 5s forwards;
+}
+
+/* Success message green background */
+.success-message {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+/* Error message red background */
+.error-message {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+/* Keyframes for fade-in and fade-out effect */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  10% {
+    opacity: 1;
+    visibility: visible;
+  }
+  90% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* To trigger animation reset on re-render */
+.success-message.show-again,
+.error-message.show-again {
+  animation: none;
+  opacity: 0;
+  visibility: hidden;
+}
