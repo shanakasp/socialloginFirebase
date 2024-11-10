@@ -121,7 +121,8 @@ const PhoneAuth = ({ setError, setShowPhoneInput }) => {
           <div>
             <label
               htmlFor="phone"
-              className="block text-sm font-medium text-gray-700"
+              className="label-margin"
+              style={{ marginRight: "10px" }}
             >
               Phone Number
             </label>
@@ -131,11 +132,11 @@ const PhoneAuth = ({ setError, setShowPhoneInput }) => {
               placeholder="+1234567890"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="input-margin"
               disabled={loading}
               required
             />
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-2 m text-sm">
               Enter phone number with country code (e.g., +1 for US)
             </p>
           </div>
