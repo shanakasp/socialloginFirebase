@@ -172,7 +172,12 @@ const PhoneAuth = ({ setError, setShowPhoneInput }) => {
         </form>
       )}
 
-      <button onClick={() => setShowPhoneInput(false)}>Back to Sign In</button>
+      <button
+        className="back-to-signin-btn"
+        onClick={() => setShowPhoneInput(false)}
+      >
+        Back to Sign In
+      </button>
     </div>
   );
 };
