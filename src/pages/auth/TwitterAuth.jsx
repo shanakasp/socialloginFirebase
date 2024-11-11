@@ -9,16 +9,43 @@ const TwitterAuth = ({ setError }) => {
   const handleTwitterSignIn = async () => {
     try {
       const provider = new TwitterAuthProvider();
-      await signInWithPopup(auth, provider);
+
+      // Set the correct callback URL
+      provider.setCustomParameters({
+        oauth_callback: `${window.location.origin}/auth/twitter/callback`,
+        allow_signup: "true",
+      });
+
+      // Additional error handling for callback URL issues
+      const result = await signInWithPopup(auth, provider).catch((error) => {
+        if (error.code === "auth/unauthorized-domain") {
+          throw new Error(
+            "This domain is not authorized for Twitter authentication. Please check your Firebase configuration."
+          );
+        }
+        throw error;
+      });
+
+      // Successfully signed in
       navigate("/dashboard");
     } catch (error) {
-      setError(error.message);
+      console.error("Error Code:", error.code);
+      console.error("Error Message:", error.message);
+
+      if (error.code === "auth/popup-closed-by-user") {
+        setError("Authentication was cancelled. Please try again.");
+      } else if (error.code === "auth/invalid-credential") {
+        setError(
+          "Invalid Twitter credentials. Please check your callback URLs in Twitter Developer Console."
+        );
+      } else {
+        setError(error.message);
+      }
     }
   };
 
   return (
     <div className="icon-circle" onClick={handleTwitterSignIn}>
-      {/* Twitter SVG Icon */}
       <svg
         width="20"
         height="20"
